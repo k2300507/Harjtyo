@@ -20,3 +20,6 @@ public class Course extends AbstractPersistable<Long> {
     @ManyToMany(mappedBy="courses")
     private List<Student> students;
 }
+
+
+// #test
