@@ -19,17 +19,23 @@ public class NewTablesTest {
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    public void hasTableStudent() {
-        jdbcTemplate.execute("SELECT id, first_name, last_name FROM Student");
+    public void hasTableUser() {
+        jdbcTemplate.execute("SELECT id, username FROM User");
     }
 
     @Test
-    public void hasTableCourse() {
-        jdbcTemplate.execute("SELECT id, name FROM Course");
+    public void hasTableEvent() {
+        jdbcTemplate.execute("SELECT id, event_title, event_date FROM Event");
+    }
+
+
+    @Test
+    public void hasTableCategory() {
+        jdbcTemplate.execute("SELECT id, category_name FROM Category");
     }
 
     @Test
     public void hasJoinTable() {
-        jdbcTemplate.execute("SELECT student_id, course_id FROM Enrollment");
+        jdbcTemplate.execute("SELECT event_id, category_id FROM event_categories");
     }
 }
