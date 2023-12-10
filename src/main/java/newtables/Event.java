@@ -30,8 +30,6 @@ public class Event extends AbstractPersistable<Long>{
     private Date event_time;
     private Date due_date;
 
-    @ManyToMany (mappedBy="events")
-    private List<User> users;
     
 
     @ManyToMany 
