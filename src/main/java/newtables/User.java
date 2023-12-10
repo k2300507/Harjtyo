@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class User extends AbstractPersistable<Long> {
     private Integer userId;
     private String username;
-    private String passwordHash;
+    private String password_Hash;
 
     @OneToMany
     @JoinTable(
