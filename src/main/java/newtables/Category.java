@@ -25,10 +25,10 @@ public class Category extends AbstractPersistable<Long>{
     private String category_name;
 
 
-    @ManyToMany (mappedBy="event_categories")
+    @ManyToMany (mappedBy="categories")
     private List<User> users;
 
-    @ManyToMany (mappedBy="event_categories")
+    @ManyToMany (mappedBy="categories")
     private List<Event> events;
     
 
