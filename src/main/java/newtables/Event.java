@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -22,7 +25,10 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 
 public class Event extends AbstractPersistable<Long>{
+    // @Id
+    // @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer event_id;
+    
     private Integer user_id;
     private String event_title;
     private String event_description;
