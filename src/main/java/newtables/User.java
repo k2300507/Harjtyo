@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 
 public class User extends AbstractPersistable<Long> {
-    private Integer userId;
+    private Long userId;
     private String username;
     private String password_Hash;
 

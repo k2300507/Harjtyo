@@ -5,18 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
+import javax.persistence.OneToMany;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import java.util.List;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Data
@@ -25,20 +25,21 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 
 public class Event extends AbstractPersistable<Long>{
-    // @Id
-    // @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer event_id;
-    
-    private Integer user_id;
+
+    private Long event_id;
+    private Long user_id;
     private String event_title;
     private String event_description;
-    private Date event_date;
-    private Date event_time;
-    private Date due_date;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate event_date;
+    @DateTimeFormat(pattern = "HH:MM")
+    private LocalTime event_time;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate due_date;
 
     
 
-    @ManyToMany 
+    @OneToMany 
     @JoinTable(
         name = "event_categories",
         joinColumns = @JoinColumn(name="event_id"),

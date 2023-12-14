@@ -20,8 +20,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 
 public class Category extends AbstractPersistable<Long>{
-    private Integer category_id;
-    private Integer user_id;
+    private Long category_id;
+    private Long user_id;
     private String category_name;
 
     @ManyToMany (mappedBy="categories")

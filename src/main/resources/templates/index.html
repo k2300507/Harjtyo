@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>-</title>
+        <title>"Eventtejä"</title>
     </head>
 
     <body>
-        <h1>-</h1>
+        <h1>Syötä tapahtuma </h1>
+        <form th:action="@{/}" method="POST">
+            <label>event title <input type="text" name="event_title"/> </label>
+            <label>event description <input type="text" name="event_description"/> </label>
+            <label>event id <input type="text" name="event_id"/></label>
+            <label>user id <input type="text" name="user_id"/></label>
+            <label>event date <input type="date" name="event_date"/></label>
+            <label>event time <input type="time" name="event_time"/></label>
+            <label>due date <input type="date" name="due_Date"/></label>
+            <input type="submit"/>
+        </form>
+
+
+
+        <h2> Tapahtumat </h2>
+        <p th:each="alkio : ${events}">
+            <span th:text="${alkio}">
+            <p th:each="alkio : ${events}"></p>
+            </span>
+
+        </p>
 
     </body>
 </html>
+
