@@ -5,7 +5,19 @@
     </head>
 
     <body>
-        <h1>Syötä tapahtuma </h1>
+
+        <h1>Tapahtumat</h1>
+        
+        <p th:each="alkio : ${events}">
+            <span th:text="${alkio}">
+            <p th:each="alkio : ${events}"></p>
+            </span>
+        </p>
+
+
+
+
+        <h2>Syötä tapahtuma </h2>
         <form th:action="@{/}" method="POST">
             <label>event title <input type="text" name="event_title"/> </label>
             <label>event description <input type="text" name="event_description"/> </label>
@@ -19,13 +31,6 @@
 
 
 
-        <h2> Tapahtumat </h2>
-        <p th:each="alkio : ${events}">
-            <span th:text="${alkio}">
-            <p th:each="alkio : ${events}"></p>
-            </span>
-
-        </p>
 
     </body>
 </html>
