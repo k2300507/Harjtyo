@@ -2,35 +2,49 @@ package newtables;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import java.io.Serializable;
 
 import java.util.List;
-
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 
+
+
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User extends AbstractPersistable<Long> {
-    private Long userId;
+@Table(name = "User")
+public class User implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long user_id;
+
+    @Column(name = "username")
     private String username;
+    @Column(name = "password_Hash")
     private String password_Hash;
 
+    @OneToMany(mappedBy = "user")
+    private List<Event> events;
 
+    
+    @OneToMany(mappedBy = "user")
+    private List<Category> categories;
 
 }
 
-// -- Users table to store user information
-// CREATE TABLE IF NOT EXISTS users (
-//     user_id INT PRIMARY KEY AUTO_INCREMENT,
-//     username VARCHAR(255) NOT NULL,
-//     password_hash VARCHAR(255) NOT NULL,
-//     -- Add other user-related fields as needed
-//     UNIQUE KEY unique_username (username)
-// );

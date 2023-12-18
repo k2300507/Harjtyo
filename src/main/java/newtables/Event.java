@@ -2,14 +2,12 @@ package newtables;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.*;
 
-import javax.persistence.OneToMany;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -20,26 +18,44 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Event extends AbstractPersistable<Long>{
+@Table(name = "Event")
+public class Event implements Serializable{
 
+
+  
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "event_id")
     private Long event_id;
-    private Long user_id;
+
+        
+    @Column(name = "event_title")
     private String event_title;
+    @Column(name = "event_description")
     private String event_description;
+
+    @Column(name = "event_date")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate event_date;
+
+    @Column(name = "event_time")
     @DateTimeFormat(pattern = "HH:MM")
     private LocalTime event_time;
+
+    @Column(name = "due_date")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate due_date;
 
-    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany 
+    @ManyToMany
     @JoinTable(
         name = "event_categories",
         joinColumns = @JoinColumn(name="event_id"),
@@ -48,15 +64,3 @@ public class Event extends AbstractPersistable<Long>{
     private List<Category> categories;
 }
 
-
-// -- Events table to store diary entries and calendar events
-// CREATE TABLE IF NOT EXISTS events (
-//     event_id INT PRIMARY KEY AUTO_INCREMENT,
-//     user_id INT,
-//     event_title VARCHAR(255) NOT NULL,
-//     event_description TEXT,
-//     event_date DATE,
-//     event_time TIME,
-//     due_date DATE,
-//     FOREIGN KEY (user_id) REFERENCES users(user_id)
-// );

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>"Tapahtumahaku"</title>
+    </head>
+
+    <body>
+
+        <h1>Tapahtumat</h1>
+
+
+        <ul>
+            <li th:each="Tapahtuma: ${event}">
+                <a th:href="@{/event/{id}(id=${event.event_id})}">
+                    <span th:text="${event.event_title}">Tapahtuman nimi</span>
+                </a>
+            </li>
+        </ul>
+
+
+
+
+
+
+
+    </body>
+</html>
+
