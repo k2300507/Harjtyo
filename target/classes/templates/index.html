@@ -10,19 +10,16 @@
         
 
         <p th:each="event : ${events}">
-            <span th:text="${ event.event_title + ' - ' + event.event_description +' - ' + event.event_date}"> </span> 
-        
-            <span th:each="category, stat : ${event.categories}">
-                <span th:text="${category.category_name}" >
-                <span th:if="${!stat.last}">,</span> <!-- Lisää pilkku, jos ei ole viimeinen kategoria -->
-            </span>
+            <span th:text="${ event.event_title + ' - ' + event.event_date}"> </span> 
+       
+            <a th:href="@{/event/{id}(id=${event.event_id})}">Lisätietoja</a>
         
             <hr/>
         </p>
 
 
 
-        <h2>Syötä tapahtuma </h2>
+        <h2>Syötä uusi tapahtuma </h2>
         <form th:action="@{/}" method="POST">
             <label>event title <input type="text" name="event_title"/> </label>
             <label>event description <input type="text" name="event_description"/> </label>

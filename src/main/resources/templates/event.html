@@ -10,17 +10,28 @@
 
 
         <ul>
-            <li th:each="Tapahtuma: ${event}">
-                <a th:href="@{/event/{id}(id=${event.event_id})}">
-                    <span th:text="${event.event_title}">Tapahtuman nimi</span>
+            <p th:each="Tapahtuma: ${event}">
+                
                     <span th:text="${event.event_date}">Tapahtuman päiväys</span>
+                    <span th:text="${event.event_title}">Tapahtuman nimi</span>
                     <span th:text="${event.event_description}">Tapahtuman kuvaus</span>
+                            
+                    <span th:each="category, stat : ${event.categories}">
+                        <span th:text="${category.category_name}" > Kategoria
+                        <span th:if="${!stat.last}">,</span> <!-- Lisää pilkku, jos ei ole viimeinen kategoria -->
+                    </span>
+                    <a th:href="@{/event/update/{id}(id=${event.event_id})}">Päivitä</a>
+                    <a th:href="@{/event/delete/{id}(id=${event.event_id})}">Poista</a>
+                    
+
                 </a>
-            </li>
+            </p>
         </ul>
 
+        <a th:href="@{/}" onclick="return confirm('Haluatko varmasti palata alkuun?');">Paluu</a>
 
-        <a th:href="@{/event/delete/{id}(id=${event.event_id})}">Delete</a>
+
+        
 
 
 

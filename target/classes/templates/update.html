@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>"Tapahtuman päivitys"</title>
+</head>
+<body>
+    <form th:action="@{/event/update/{id}(id=${event.event_id})}" method="POST">
+
+        <input type="hidden" name="event_id" th:value="${event.event_id}" />
+
+        <label>Event Title: <input type="text" name="event_title" th:value="${event.event_title}" /></label>
+        <label>Event Description: <input type="text" name="event_description" th:value="${event.event_description}" /></label>
+        <label>event date <input type="date" name="x_event_date" th:value="${event.event_date}"/></label>
+        <label>event time <input type="time" name="x_event_time" th:value="${event.event_time}"/></label>
+        <label>due date <input type="date" name="x_due_date" th:value="${event.due_date}" /></label>
+        <label>Kategoria:
+            <select name="category_id">
+                <option th:each="category : ${allCategories}" th:value="${category.category_id}" th:text="${category.category_name}" th:selected="${category.category_id == event.categories[0]?.category_id}"></option>
+            </select>
+        </label>
+        <!-- Lisää muut päivitettävät kentät tarpeen mukaan -->
+        <input type="submit" value="Päivitä" />
+    </form>
+</body>
+</html>
+
+

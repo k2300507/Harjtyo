@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Delete Event</title>
+    <title>Poista tapahtuma</title>
 </head>
 <body>
 
-    <h2>Delete Event</h2>
+    <h2>Poista tapahtuma</h2>
 
-    <p>Are you sure you want to delete the following event?</p>
+    <p>Oletko varma, että haluat poistaa tämän tapahtuman?</p>
 
     <ul>
         <li th:each="Tapahtuma: ${event}">
-            <a th:href="@{/event/{id}(id=${event.event_id})}">
-                <span th:text="${event.event_title}">Tapahtuman nimi</span>
                 <span th:text="${event.event_date}">Tapahtuman päiväys</span>
-                <span th:text="${event.event_description}">Tapahtuman kuvaus</span>
+                <span th:text="${event.event_title}">Tapahtuman nimi</span>
             </a>
         </li>
     </ul>
     <form th:action="@{/event/delete/{id}(id=${event.event_id})}" method="POST">
-        <input type="submit" value="Delete"/>
-        <a th:href="@{/}" onclick="return confirm('Are you sure you want to cancel?');">Cancel</a>
+        <input type="submit" value="Poista"/>
+        <a th:href="@{/}" onclick="return confirm('Oletko varma, että haluat peruuttaa?');">Peruuta</a>
     </form>
 
 </body>

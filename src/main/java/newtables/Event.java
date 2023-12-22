@@ -47,7 +47,7 @@ public class Event implements Serializable{
     private LocalDate event_date;
 
     @Column(name = "event_time")
-    @DateTimeFormat(pattern = "HH:MM")
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime event_time;
 
     @Column(name = "due_date")
