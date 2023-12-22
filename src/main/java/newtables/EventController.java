@@ -48,8 +48,6 @@ public class EventController {
     public String create(
             @RequestParam String event_title,
             @RequestParam String event_description,
-            // @RequestParam Long event_id,
-            // @RequestParam Long user_id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime event_time,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate event_date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate due_date,
@@ -63,7 +61,7 @@ public class EventController {
         event.setEvent_time(event_time);
         event.setDue_date(due_date);
 
-        // Check if event.getCategories() is null, and initialize it if needed
+        // Tarkista onko event.getCategories() tyhjä, ja alusta tarpeen vaatiessa
         if (event.getCategories() == null) {
             event.setCategories(new ArrayList<>());
         }
@@ -76,7 +74,27 @@ public class EventController {
         eventRepository.save(event);
         return "redirect:/";
     }
+
+
+    @GetMapping("/event/delete/{id}")
+    public String showDeleteForm(Model model, @PathVariable Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid event ID"));
     
+        model.addAttribute("event", event);
+        return "delete-event";
+    }
+    
+    @PostMapping("/event/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        eventRepository.deleteById(id);
+        return "redirect:/";
+    }
+
+
+
+   
+
 }
 
 
