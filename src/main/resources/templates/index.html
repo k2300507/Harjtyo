@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>"Eventtejä"</title>
+        <title>"Etusivu"</title>
     </head>
 
     <body>
 
         <h1>Tapahtumat</h1>
         
-        <p th:each="alkio : ${events}">
-            <span th:text="${alkio}">
-            <p th:each="alkio : ${events}"></p>
+
+        <p th:each="event : ${events}">
+            <span th:text="${ event.event_title + ' - ' + event.event_description +' - ' + event.event_date}"> </span> 
+        
+            <span th:each="category, stat : ${event.categories}">
+                <span th:text="${category.category_name}" >
+                <span th:if="${!stat.last}">,</span> <!-- Lisää pilkku, jos ei ole viimeinen kategoria -->
             </span>
+        
+            <hr/>
         </p>
-
-
 
 
 
@@ -22,11 +26,19 @@
         <form th:action="@{/}" method="POST">
             <label>event title <input type="text" name="event_title"/> </label>
             <label>event description <input type="text" name="event_description"/> </label>
-            <!-- <label>event id <input type="text" name="event_id"/></label>
-            <label>user id <input type="text" name="user_id"/></label> -->
             <label>event date <input type="date" name="event_date"/></label>
             <label>event time <input type="time" name="event_time"/></label>
-            <label>due date <input type="date" name="due_Date"/></label>
+            <label>due date <input type="date" name="due_date"/></label>
+
+            <!-- Pudotusvalikko kategorialle -->
+            <label>Kategoria:
+                <select name="category_id">
+                    <option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.category_name}"></option>
+                </select>
+            </label>
+            
+            <!-- <input type="hidden" name="category_id" th:value="${selectedCategoryId}"/> -->
+
             <input type="submit"/>
         </form>
 

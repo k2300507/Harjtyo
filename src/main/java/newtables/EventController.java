@@ -1,7 +1,7 @@
 package newtables;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,8 +28,12 @@ public class EventController {
     @GetMapping("/")
     public String list(Model model) {
         model.addAttribute("events", eventRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("users", userRepository.findAll());
         return "index";
     }
+
+    
     
 
     @GetMapping("/event/{id}")
@@ -48,17 +52,27 @@ public class EventController {
             // @RequestParam Long user_id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime event_time,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate event_date,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate due_Date)
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate due_date,
+            @RequestParam Long category_id)
             {
 
         Event event = new Event();
         event.setEvent_title(event_title);
         event.setEvent_description(event_description);
-        // event.setEvent_id(event_id);
-        // event.setUser_id(user_id);
         event.setEvent_date(event_date);
         event.setEvent_time(event_time);
-        event.setDue_date(due_Date);
+        event.setDue_date(due_date);
+
+        // Check if event.getCategories() is null, and initialize it if needed
+        if (event.getCategories() == null) {
+            event.setCategories(new ArrayList<>());
+        }
+
+
+        Category selectedCategory = categoryRepository.findById(category_id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid category id"));
+        event.getCategories().add(selectedCategory);
+        
         eventRepository.save(event);
         return "redirect:/";
     }

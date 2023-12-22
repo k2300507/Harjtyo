@@ -13,6 +13,8 @@
             <li th:each="Tapahtuma: ${event}">
                 <a th:href="@{/event/{id}(id=${event.event_id})}">
                     <span th:text="${event.event_title}">Tapahtuman nimi</span>
+                    <span th:text="${event.event_date}">Tapahtuman päiväys</span>
+                    <span th:text="${event.event_description}">Tapahtuman kuvaus</span>
                 </a>
             </li>
         </ul>
