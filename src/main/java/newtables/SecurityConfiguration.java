@@ -17,11 +17,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // mahdollistetaan h2-konsolin käyttö
+        http.csrf().disable();
+        http.headers().frameOptions().sameOrigin();
+
         // Ei päästetä käyttäjää mihinkään sovelluksen resurssiin ilman
         // kirjautumista. Tarjotaan kuitenkin lomake kirjautumiseen, mihin
         // pääsee vapaasti. Tämän lisäksi uloskirjautumiseen tarjotaan
         // mahdollisuus kaikille.
+
         http.authorizeRequests()
+                .antMatchers("/h2-console", "/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET,"/event/**").permitAll()
                 .anyRequest().authenticated().and()// käyttäjä tulee tunnistaa jokaisen pyynnön yhteydessä
