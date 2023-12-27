@@ -43,9 +43,15 @@ public class EventController {
         return "event";
     }
 
+    @GetMapping("/input/")
+    public String input(Model model ) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("users", userRepository.findAll());
+         return "input";
+    }
 
 
-    @PostMapping("/")
+    @PostMapping("/input/")
     public String create(
             @RequestParam String event_title,
             @RequestParam String event_description,

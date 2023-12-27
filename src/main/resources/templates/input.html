@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>"Lisäys"</title>
+    </head>
+
+    <body>
+
+        <h1>Tapahtumat</h1>
+        
+
+        <h2>Syötä uusi tapahtuma </h2>
+        <form th:action="@{/input/}" method="POST">
+            <label>event title <input type="text" name="event_title"/> </label>
+            <label>event description <input type="text" name="event_description"/> </label>
+            <label>event date <input type="date" name="event_date"/></label>
+            <label>event time <input type="time" name="event_time"/></label>
+            <label>due date <input type="date" name="due_date"/></label>
+
+            <!-- Pudotusvalikko kategorialle -->
+            <label>Kategoria:
+                <select name="category_id">
+                    <option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.category_name}"></option>
+                </select>
+            </label>
+            
+            <!-- <input type="hidden" name="category_id" th:value="${selectedCategoryId}"/> -->
+
+            <input type="submit"/>
+        </form>
+
+
+
+
+    </body>
+</html>
+

@@ -19,28 +19,10 @@
 
 
 
-        <h2>Syötä uusi tapahtuma </h2>
-        <form th:action="@{/}" method="POST">
-            <label>event title <input type="text" name="event_title"/> </label>
-            <label>event description <input type="text" name="event_description"/> </label>
-            <label>event date <input type="date" name="event_date"/></label>
-            <label>event time <input type="time" name="event_time"/></label>
-            <label>due date <input type="date" name="due_date"/></label>
-
-            <!-- Pudotusvalikko kategorialle -->
-            <label>Kategoria:
-                <select name="category_id">
-                    <option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.category_name}"></option>
-                </select>
-            </label>
-            
-            <!-- <input type="hidden" name="category_id" th:value="${selectedCategoryId}"/> -->
-
-            <input type="submit"/>
-        </form>
-
-
-
+        <h2>Toiminnot</h2>
+        <a th:href="@{/input/}"> Syötä uusi tapahtuma</a>
+        <a> TAI </a>
+        <a th:href="@{/logout}"> Kirjaudu ulos</a>
 
     </body>
 </html>
