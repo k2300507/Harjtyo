@@ -1,19 +1,26 @@
 package newtables;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -21,8 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
 
-        // Ei päästetä käyttäjää mihinkään sovelluksen resurssiin ilman
-        // kirjautumista. Tarjotaan kuitenkin lomake kirjautumiseen, mihin
+        // Päästetään käyttäjä tekemään vain GET-pyyntöjä ilman kirjautumista.
+        // Tarjotaan kuitenkin lomake kirjautumiseen POST-toiminnoissa, mihin
         // pääsee vapaasti. Tämän lisäksi uloskirjautumiseen tarjotaan
         // mahdollisuus kaikille.
 
@@ -34,18 +41,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().permitAll().and() // kirjautumiseen käytettyyn lomakkeeseen on kaikilla pääsy
                 .logout().logoutSuccessUrl("/").permitAll(); // uloskirjautumistoiminnallisuus on kaikille sallittu
     }
+    
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+                auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
     @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        // withdefaultpasswordencoder on deprekoitu mutta toimii yhä
-        UserDetails user = User.withDefaultPasswordEncoder()
-                               .username("maxwell_smart")
-                               .password("kenkapuhelin")
-                               .authorities("USER")
-                               .build();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(user);
-        return manager;
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
 }
