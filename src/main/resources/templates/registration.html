@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Rekisteröidy</title>
+</head>
+<body>
+    <h2>Rekisteröidy</h2>
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <!-- <input type="hidden" name="user_id" th:value="${user.user_id}" /> -->
+        <label for="username">Käyttäjänimi:</label>
+        <input type="text" th:field="*{username}" required/>
+
+        <label for="password">Salasana:</label>
+        <input type="password" th:field="*{password_Hash}" required/>
+
+        <!-- Muut käyttäjän tiedot tarpeen mukaan -->
+
+        <button type="submit">Rekisteröidy</button>
+    </form>
+</body>
+</html>

@@ -13,15 +13,23 @@
             <p th:each="Tapahtuma: ${event}">
                 
                     <span th:text="${event.event_date}">Tapahtuman päiväys</span>
+                    <span th:text = "${event.event_time}"> Tapahtuman aika </span>
                     <span th:text="${event.event_title}">Tapahtuman nimi</span>
-                    <span th:text="${event.event_description}">Tapahtuman kuvaus</span>
-                            
+                    
+                    <p>
                     <span th:each="category, stat : ${event.categories}">
                         <span th:text="${category.category_name}" > Kategoria
                         <span th:if="${!stat.last}">,</span> <!-- Lisää pilkku, jos ei ole viimeinen kategoria -->
                     </span>
-                    <a th:href="@{/event/update/{id}(id=${event.event_id})}">Päivitä</a>
-                    <a th:href="@{/event/delete/{id}(id=${event.event_id})}">Poista</a>
+                    </p>
+                    
+                    <p>
+                        <span th:text="${event.event_description}">Tapahtuman kuvaus</span>
+                    </p>  
+
+                    <p><a th:href="@{/event/update/{id}(id=${event.event_id})}">Päivitä</a>
+                    <a> TAI </a>
+                    <a th:href="@{/event/delete/{id}(id=${event.event_id})}">Poista</a></p>
                     
 
                 </a>

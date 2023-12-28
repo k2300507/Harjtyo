@@ -12,7 +12,7 @@
         <p th:each="event : ${events}">
             <span th:text="${ event.event_title + ' - ' + event.event_date}"> </span> 
        
-            <a th:href="@{/event/{id}(id=${event.event_id})}">Lisätietoja</a>
+            <a th:href="@{/event/{id}(id=${event.event_id})}"> -> Lisätietoja tapahtumasta</a>
         
             <hr/>
         </p>
@@ -20,9 +20,17 @@
 
 
         <h2>Toiminnot</h2>
+        <p>
         <a th:href="@{/input/}"> Syötä uusi tapahtuma</a>
+        </p>
         <a> TAI </a>
+        <p>
+        <a th:href="@{/register}">Rekisteröidy uutena käyttäjänä</a>
+        </p>
+        <a> TAI </a>
+        <p>
         <a th:href="@{/logout}"> Kirjaudu ulos</a>
+        </p>
 
     </body>
 </html>
