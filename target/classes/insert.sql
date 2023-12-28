@@ -1,1 +1,0 @@
--- Luo insert - skriptit kategorioiden tekemiseen (ja vaikka eventtien)
