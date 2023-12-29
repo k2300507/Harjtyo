@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console", "/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET,"/event/**").permitAll()
+                .antMatchers("/input/", "/event/update/**", "/event/delete/**").authenticated()
                 .antMatchers("/register").permitAll() //Sallitaan rekisteröinti
                 .anyRequest().authenticated().and()// käyttäjä tulee tunnistaa jokaisen pyynnön yhteydessä
                 .formLogin().permitAll().and() // kirjautumiseen käytettyyn lomakkeeseen on kaikilla pääsy

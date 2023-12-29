@@ -1,4 +1,5 @@
 package newtables;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class EventController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired 
+    private UserService userService;
+
     @GetMapping("/")
     public String list(Model model) {
         model.addAttribute("events", eventRepository.findAll());
@@ -44,7 +48,12 @@ public class EventController {
     }
 
     @GetMapping("/input/")
-    public String input(Model model ) {
+    public String input(Model model, Principal principal ) {
+        // onko käyttäjä kirjautunut sisään?
+        if (principal == null) {
+            // Käyttäjä ei ole kirjautunut, ohjaa kirjautumissivulle
+            return "redirect:/login";
+        }
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
          return "input";
@@ -58,7 +67,8 @@ public class EventController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime event_time,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate event_date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate due_date,
-            @RequestParam Long category_id)
+            @RequestParam Long category_id,
+            Principal principal)
             {
 
         Event event = new Event();
@@ -67,6 +77,10 @@ public class EventController {
         event.setEvent_date(event_date);
         event.setEvent_time(event_time);
         event.setDue_date(due_date);
+
+        // Hakee kirjautuneen käyttäjän 
+        User loggedInUser = userService.getUserWithEventsAndCategories(principal.getName());
+        event.setUser(loggedInUser);
 
         // Tarkista onko event.getCategories() tyhjä, ja alusta tarpeen vaatiessa
         if (event.getCategories() == null) {
@@ -84,7 +98,13 @@ public class EventController {
 
 
     @GetMapping("/event/delete/{id}")
-    public String showDeleteForm(Model model, @PathVariable Long id) {
+    public String showDeleteForm(Model model, @PathVariable Long id, Principal principal) {
+        // onko käyttäjä kirjautunut sisään?
+        if (principal == null) {
+            // Käyttäjä ei ole kirjautunut, ohjaa kirjautumissivulle
+            return "redirect:/login";
+        }
+
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID"));
     
@@ -95,11 +115,19 @@ public class EventController {
     @PostMapping("/event/delete/{id}")
     public String delete(@PathVariable Long id) {
         eventRepository.deleteById(id);
+
         return "redirect:/";
     }
 
     @GetMapping("/event/update/{id}")
-    public String showUpdateForm(Model model, @PathVariable Long id) {
+    public String showUpdateForm(Model model, @PathVariable Long id, Principal principal) {
+        // onko käyttäjä kirjautunut sisään?
+        if (principal == null) {
+            // Käyttäjä ei ole kirjautunut, ohjaa kirjautumissivulle
+            return "redirect:/login";
+        }
+
+
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID"));
     
@@ -113,7 +141,8 @@ public class EventController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime x_event_time,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate x_event_date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate x_due_date,
-            @RequestParam Long category_id) {
+            @RequestParam Long category_id,
+            Principal principal) {
         System.err.println("virhe" + x_event_date);
         updatedEvent.setEvent_date(x_event_date);
         updatedEvent.setEvent_time(x_event_time);
@@ -128,6 +157,10 @@ public class EventController {
         Category selectedCategory = categoryRepository.findById(category_id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid category id"));
        updatedEvent.getCategories().add(selectedCategory);
+
+        // Hakee kirjautuneen käyttäjän
+        User loggedInUser = userService.getUserWithEventsAndCategories(principal.getName());
+        updatedEvent.setUser(loggedInUser);
         
         eventRepository.save(updatedEvent);
         return "redirect:/";

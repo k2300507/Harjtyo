@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>"Etusivu"</title>
+        <title>Etusivu</title>
     </head>
 
     <body>
@@ -21,16 +21,18 @@
 
         <h2>Toiminnot</h2>
         <p>
-        <a th:href="@{/input/}"> Syötä uusi tapahtuma</a>
+            <a th:href="@{/input/}"> Syötä uusi tapahtuma</a>
+            <hr/>
         </p>
-        <a> TAI </a>
+        
+        <h2>Kirjautuminen</h2>
         <p>
-        <a th:href="@{/register}">Rekisteröidy uutena käyttäjänä</a>
+            <a th:href="@{/login}"> Kirjaudu sisään</a> <a> / </a> <a th:href="@{/logout}"> Kirjaudu ulos</a>
         </p>
-        <a> TAI </a>
         <p>
-        <a th:href="@{/logout}"> Kirjaudu ulos</a>
+            <a th:href="@{/register}">Rekisteröidy uutena käyttäjänä</a>
         </p>
+
 
     </body>
 </html>
